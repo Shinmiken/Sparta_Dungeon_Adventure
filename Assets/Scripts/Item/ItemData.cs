@@ -9,7 +9,9 @@ public enum ItemType
 
 public enum ConsumType
 {
-    health
+    Jump = 0,
+    Speed = 1,
+    health = 2
 }
 
 [System.Serializable]
@@ -24,15 +26,6 @@ public class ItemData : ScriptableObject
 {
     [Header("Info")]
     public string ItemName;
-    public string ItemDiscription;
     public ItemType type;
-    public Sprite Icon;
-    public GameObject ItemPrefabs;
-
-    [Header("Stacking")]
-    public bool canStack;
-    public float maxStack;
-
-    [Header("Consum")]
-    public ItemDataConsum[] consumables;
+    public ConsumType consumType;
 }

@@ -13,11 +13,9 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: 
   ItemName: "\uB300\uAC80"
-  ItemDiscription: "\uC5B4\uB518\uAC00 \uC0AC\uC6A9\uD560\uC218\uC788\uB294\uACF3\uC774
-    \uC788\uB294\uAC74\uAC00?"
+  ItemDiscription: "\uAC15\uB825\uD574\uBCF4\uC778\uB2E4"
   type: 2
-  Icon: {fileID: 21300000, guid: 4f2f320a217307a48a107491b1d17ebb, type: 3}
-  ItemPrefabs: {fileID: 2979735463603237197, guid: 30f3dfa1aca1a6e469333235104f58f7, type: 3}
+  consumType: 0
   canStack: 0
   maxStack: 0
   consumables: []

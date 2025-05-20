@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
+using System.Collections;
 
 public class Player : MonoBehaviour
 {
     [Header("Move")]
     public float moveSpeed; // 플레이어 스피드
+    private float speed;
     public float jumpPos; // 점프 높이
     private Vector2 moveVec; // 움직일 벡터
     private Rigidbody rb;
@@ -30,10 +32,10 @@ public class Player : MonoBehaviour
 
     [Header("Run")]
     public bool isRun = false;
-
+    public bool isSuper = false;
 
     public ItemData itemData;
-    public Action addItem;
+    public Action<ConsumType> addItem;
 
     private void Awake()
     {
@@ -79,7 +81,7 @@ public class Player : MonoBehaviour
         camRight.Normalize();
 
         // 입력 방향 적용
-        float speed = isRun ? moveSpeed * 2 : moveSpeed;
+        speed = isRun ? moveSpeed * 2 : moveSpeed;
         Vector3 moveDir = camForward * moveVec.y + camRight * moveVec.x;
         moveDir *= speed;
         moveDir.y = rb.velocity.y; // y축은 기존 속도 유지 (점프 등)
@@ -130,6 +132,58 @@ public class Player : MonoBehaviour
         {
             isRun = false;
         }
+    }
+
+    public void Item_1(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            if (ItemManager.instance.ItemCount.UseItem(ConsumType.Jump))
+            {
+                StartCoroutine(FirstItem());
+            }
+        }
+    }
+    IEnumerator FirstItem()
+    {
+        jumpPos *= 2;
+        yield return new WaitForSeconds(5f);
+        jumpPos /= 2;
+    }
+    public void Item_2(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            if (ItemManager.instance.ItemCount.UseItem(ConsumType.Speed))
+            {
+                StartCoroutine(SecondItem());
+            }
+        }
+    }
+    IEnumerator SecondItem()
+    {
+        //isRun = true;
+        //yield return new WaitForSeconds(5f);
+        //isRun = false;
+        moveSpeed *= 2;
+        yield return new WaitForSeconds(5f);
+        moveSpeed /= 2;
+    }
+    public void Item_3(InputAction.CallbackContext context)
+    {
+        if (context.phase == InputActionPhase.Started)
+        {
+            if (ItemManager.instance.ItemCount.UseItem(ConsumType.health))
+            {
+                StartCoroutine(ThirdItem());
+            } 
+        }
+    }
+    IEnumerator ThirdItem()
+    {
+        isSuper = true;
+        yield return new WaitForSeconds(5f);
+        isSuper = false;
     }
 
     bool IsGround()

@@ -9,7 +9,7 @@ public class PlayerCondition : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerManager.Instance.Player.isRun)
+        if (PlayerManager.Instance.Player.isRun && !PlayerManager.Instance.Player.isSuper)
         {
             if (stemina.curHp <= 0)
             {

@@ -8,6 +8,8 @@ public class Interaction : MonoBehaviour
 
     public TextMeshProUGUI promptText;
 
+    string discripsion = "[E] »πµÊ«œ±‚";
+
     public LayerMask layerMask;
     [SerializeField] private float maxCheck = 5.0f;
     private GameObject curInteractGameObject = null;
@@ -20,7 +22,7 @@ public class Interaction : MonoBehaviour
     void CheckInfo()
     {
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        Debug.DrawRay(ray.origin, ray.direction * maxCheck, Color.red);
+        //Debug.DrawRay(ray.origin, ray.direction * maxCheck, Color.red);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, maxCheck, layerMask))
@@ -43,7 +45,7 @@ public class Interaction : MonoBehaviour
     private void SetPromptText()
     {
         promptText.gameObject.SetActive(true);
-        promptText.text = curInteractable.GetInteractPrompt();
+        promptText.text = discripsion;
     }
 
     public void OnInteractInput(InputAction.CallbackContext context)
