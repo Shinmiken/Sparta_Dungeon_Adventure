@@ -7,15 +7,20 @@ public class MoveRock : MonoBehaviour
 {
     float num = 0;
     float number = 1;
+    Vector3 pos;
+    private void Start()
+    {
+        pos = transform.position;
+    }
     void Update()
     {
-        Vector3 pos = transform.position;
+        Vector3 movePos = transform.position;
         num = number * Time.deltaTime;
-        if (pos.z >= 10)
+        if (movePos.z >= pos.z + 5)
         {
             ChangeDir(-1);
         }
-        else if (pos.z <= -10)
+        else if (movePos.z <= pos.z -5)
         {
             ChangeDir(1);
         }

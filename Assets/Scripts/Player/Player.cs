@@ -50,6 +50,7 @@ public class Player : MonoBehaviour
     private void Update()
     {
         PlayerMove();
+        IsGround();
     }
 
     private void LateUpdate()
@@ -162,9 +163,6 @@ public class Player : MonoBehaviour
     }
     IEnumerator SecondItem()
     {
-        //isRun = true;
-        //yield return new WaitForSeconds(5f);
-        //isRun = false;
         moveSpeed *= 2;
         yield return new WaitForSeconds(5f);
         moveSpeed /= 2;
@@ -190,17 +188,18 @@ public class Player : MonoBehaviour
     {
         Vector3 basePosition = transform.position + Vector3.down * 0.5f; // 레이 쏘는 시작위치
 
-        Ray[] ray = new Ray[4]
+        Ray[] ray = new Ray[5]
         {
             new Ray(basePosition + transform.forward * rayOffset, Vector3.down), // 레이가 쏘는 위치
             new Ray(basePosition - transform.forward * rayOffset, Vector3.down),
             new Ray(basePosition + transform.right *  rayOffset, Vector3.down),
-            new Ray(basePosition - transform.right * rayOffset, Vector3.down)
+            new Ray(basePosition - transform.right * rayOffset, Vector3.down),
+            new Ray(basePosition, Vector3.down)
         };
 
         for(int i = 0; i < ray.Length; i++)
         {
-            //Debug.DrawRay(ray[i].origin, ray[i].direction * rayLength, Color.red); 쏘고 있는 레이 확인
+            Debug.DrawRay(ray[i].origin, ray[i].direction * rayLength, Color.red); //쏘고 있는 레이 확인
 
             if (Physics.Raycast(ray[i], rayLength, groundLayer)) // 레이가 땅이라 닿았는지 확인
             {
