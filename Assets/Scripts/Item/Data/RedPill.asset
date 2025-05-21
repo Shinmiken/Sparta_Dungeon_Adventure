@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a05ea4374919ddc4f919f29ef29876fd, type: 3}
-  m_Name: CupCake
+  m_Name: RedPill
   m_EditorClassIdentifier: 
-  ItemName: "\uCEF5\uCF00\uC774\uD06C"
-  type: 0
+  ItemName: "\uC810\uD504\uC54C\uC57D"
+  type: 1
   consumType: 0

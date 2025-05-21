@@ -11,12 +11,29 @@ public class Interaction : MonoBehaviour
     string discripsion = "[E] »πµÊ«œ±‚";
 
     public LayerMask layerMask;
+    public LayerMask ladderMask;
     [SerializeField] private float maxCheck = 5.0f;
+    [SerializeField] private float ladderCheck = 0.5f;
     private GameObject curInteractGameObject = null;
 
     private void Update()
     {
         CheckInfo();
+        CheckLadder();
+    }
+
+    public bool CheckLadder()
+    {
+        Ray ray = new Ray(transform.position, transform.forward);
+        RaycastHit hit;
+        Debug.DrawRay(ray.origin, ray.direction * ladderCheck, Color.red);
+
+        if (Physics.Raycast(ray, out hit, ladderCheck, ladderMask))
+        {
+            return true;
+        }
+        return false;
+
     }
 
     void CheckInfo()

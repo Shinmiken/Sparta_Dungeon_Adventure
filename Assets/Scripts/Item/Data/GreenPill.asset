@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: a05ea4374919ddc4f919f29ef29876fd, type: 3}
-  m_Name: Fish
+  m_Name: GreenPill
   m_EditorClassIdentifier: 
-  ItemName: "\uBB3C\uACE0\uAE30"
+  ItemName: "\uCCB4\uB825\uC54C\uC57D"
   type: 1
-  consumType: 1
+  consumType: 2

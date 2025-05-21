@@ -50,7 +50,6 @@ public class Player : MonoBehaviour
     private void Update()
     {
         PlayerMove();
-        IsGround();
     }
 
     private void LateUpdate()
@@ -117,7 +116,7 @@ public class Player : MonoBehaviour
         camCurY = Mathf.Clamp(camCurY, minCur, maxCur);
 
         // 좌우 회전은 플레이어 회전으로 처리 (카메라 루트 회전)
-        cameraRoot.localRotation = Quaternion.Euler(0, camCurX, 0);
+        transform.rotation = Quaternion.Euler(0, camCurX, 0);
 
         // 상하 회전은 카메라 자체에 적용
         cameraVertical.localRotation = Quaternion.Euler(camCurY, 0, 0);
@@ -132,6 +131,14 @@ public class Player : MonoBehaviour
         else if (context.phase == InputActionPhase.Canceled)
         {
             isRun = false;
+        }
+    }
+
+    public void OnLadder(InputAction.CallbackContext context)
+    {
+        if(context.phase == InputActionPhase.Performed && PlayerManager.Instance.Interaction.CheckLadder())
+        {
+            rb.AddForce(Vector2.up * 1, ForceMode.Impulse);
         }
     }
 
@@ -186,7 +193,7 @@ public class Player : MonoBehaviour
 
     bool IsGround()
     {
-        Vector3 basePosition = transform.position + Vector3.down * 0.5f; // 레이 쏘는 시작위치
+        Vector3 basePosition = transform.position + Vector3.down * 0.8f; // 레이 쏘는 시작위치
 
         Ray[] ray = new Ray[5]
         {

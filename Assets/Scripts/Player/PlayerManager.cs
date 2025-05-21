@@ -8,6 +8,9 @@ public class PlayerManager : MonoBehaviour
     Player player;
     public Player Player => player;
 
+    Interaction interaction;
+    public Interaction Interaction => interaction;
+
     private void Awake()
     {
         if(instance == null)
@@ -21,5 +24,6 @@ public class PlayerManager : MonoBehaviour
         }
 
         player = GetComponent<Player>();
+        interaction = GetComponent<Interaction>();
     }
 }
