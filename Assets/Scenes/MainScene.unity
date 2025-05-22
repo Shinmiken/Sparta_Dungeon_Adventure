@@ -9006,7 +9006,7 @@ Transform:
   m_GameObject: {fileID: 388508244}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 149.06, y: 194.91, z: -37.31}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -19951,7 +19951,7 @@ GameObject:
   - component: {fileID: 812927887}
   - component: {fileID: 812927886}
   - component: {fileID: 812927885}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: ride
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -39481,7 +39481,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 0.5
   m_Pitch: 1
-  Loop: 0
+  Loop: 1
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
