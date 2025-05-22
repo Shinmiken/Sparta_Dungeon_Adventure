@@ -24,7 +24,9 @@ public class Interaction : MonoBehaviour
 
     public bool CheckLadder()
     {
-        Ray ray = new Ray(transform.position, transform.forward);
+        Vector3 downRay = transform.position;
+        downRay.y += 0.1f;
+        Ray ray = new Ray(downRay, transform.forward);
         RaycastHit hit;
         Debug.DrawRay(ray.origin, ray.direction * ladderCheck, Color.red);
 

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
 using System.Collections;
+using Unity.VisualScripting;
 
 public class Player : MonoBehaviour
 {
@@ -16,11 +17,13 @@ public class Player : MonoBehaviour
     [Header("Camera")]
     public Transform cameraRoot;     // 좌우 회전용
     public Transform cameraVertical; // 상하 회전용
+    public Transform cameraTransform;
     public float minCur;
     public float maxCur;
     private float camCurY; // 상하
     private float camCurX; // 좌우
     public float camSensitivity;
+    public float distance = 4f;
 
     private Vector2 curDelta;
 
@@ -33,6 +36,10 @@ public class Player : MonoBehaviour
     [Header("Run")]
     public bool isRun = false;
     public bool isSuper = false;
+
+    [Header("Ladder")]
+    public bool isClimb = false;
+    private float climbSpeed = 3.0f;
 
     public ItemData itemData;
     public Action<ConsumType> addItem;
@@ -49,7 +56,25 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        PlayerMove();
+        IsGround();
+    }
+
+    private void FixedUpdate()
+    {
+        if (isClimb && PlayerManager.Instance.Interaction.CheckLadder())
+        {
+            rb.velocity = Vector2.up * climbSpeed;
+        }
+        else
+        {
+            if (isClimb)
+            {
+                isClimb = false;
+                rb.useGravity = true;
+                rb.velocity = Vector3.zero;
+            }
+            PlayerMove();
+        }
     }
 
     private void LateUpdate()
@@ -115,11 +140,11 @@ public class Player : MonoBehaviour
         camCurY -= curDelta.y * camSensitivity;
         camCurY = Mathf.Clamp(camCurY, minCur, maxCur);
 
-        // 좌우 회전은 플레이어 회전으로 처리 (카메라 루트 회전)
-        transform.rotation = Quaternion.Euler(0, camCurX, 0);
-
-        // 상하 회전은 카메라 자체에 적용
+        transform.rotation = Quaternion.Euler(0, camCurX, 0); // 플레이어 주변 회전
         cameraVertical.localRotation = Quaternion.Euler(camCurY, 0, 0);
+
+        cameraTransform.localPosition = new Vector3(0, 0, -distance);
+        cameraTransform.LookAt(cameraRoot);
     }
 
     public void OnRun(InputAction.CallbackContext context)
@@ -136,9 +161,16 @@ public class Player : MonoBehaviour
 
     public void OnLadder(InputAction.CallbackContext context)
     {
-        if(context.phase == InputActionPhase.Performed && PlayerManager.Instance.Interaction.CheckLadder())
+        if (context.phase == InputActionPhase.Started && PlayerManager.Instance.Interaction.CheckLadder())
         {
-            rb.AddForce(Vector2.up * 1, ForceMode.Impulse);
+            isClimb = true;
+            rb.useGravity = false;
+        }
+        else if (context.phase == InputActionPhase.Canceled)
+        {
+            isClimb = false;
+            rb.useGravity = true;
+            rb.velocity = Vector3.zero;
         }
     }
 
@@ -193,8 +225,8 @@ public class Player : MonoBehaviour
 
     bool IsGround()
     {
-        Vector3 basePosition = transform.position + Vector3.down * 0.8f; // 레이 쏘는 시작위치
-
+        Vector3 basePosition = transform.position; // 레이 쏘는 시작위치
+        basePosition.y += 0.5f;
         Ray[] ray = new Ray[5]
         {
             new Ray(basePosition + transform.forward * rayOffset, Vector3.down), // 레이가 쏘는 위치
