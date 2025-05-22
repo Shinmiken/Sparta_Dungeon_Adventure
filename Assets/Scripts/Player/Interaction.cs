@@ -28,7 +28,6 @@ public class Interaction : MonoBehaviour
         downRay.y += 0.1f;
         Ray ray = new Ray(downRay, transform.forward);
         RaycastHit hit;
-        Debug.DrawRay(ray.origin, ray.direction * ladderCheck, Color.red);
 
         if (Physics.Raycast(ray, out hit, ladderCheck, ladderMask))
         {
@@ -41,7 +40,7 @@ public class Interaction : MonoBehaviour
     void CheckInfo()
     {
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        //Debug.DrawRay(ray.origin, ray.direction * maxCheck, Color.red);
+        Debug.DrawRay(ray.origin, ray.direction * maxCheck, Color.red);
         RaycastHit hit;
 
         if (Physics.Raycast(ray, out hit, maxCheck, layerMask))

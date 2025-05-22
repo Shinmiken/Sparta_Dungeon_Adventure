@@ -14,4 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ItemName: "\uC18D\uB3C4\uC54C\uC57D"
   type: 1
+  weaponType: 3
   consumType: 1

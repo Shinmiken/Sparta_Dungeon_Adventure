@@ -13,9 +13,6 @@ MonoBehaviour:
   m_Name: Sword
   m_EditorClassIdentifier: 
   ItemName: "\uB300\uAC80"
-  ItemDiscription: "\uAC15\uB825\uD574\uBCF4\uC778\uB2E4"
   type: 2
-  consumType: 0
-  canStack: 0
-  maxStack: 0
-  consumables: []
+  weaponType: 0
+  consumType: 3

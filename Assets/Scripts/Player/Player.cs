@@ -9,21 +9,17 @@ public class Player : MonoBehaviour
     [Header("Move")]
     public float moveSpeed; // 플레이어 스피드
     private float speed;
-    public float jumpPos; // 점프 높이
     private Vector2 moveVec; // 움직일 벡터
     private Rigidbody rb;
     public Rigidbody Rb => rb;
 
     [Header("Camera")]
-    public Transform cameraRoot;     // 좌우 회전용
-    public Transform cameraVertical; // 상하 회전용
-    public Transform cameraTransform;
+    public Transform cameraPos;
     public float minCur;
     public float maxCur;
     private float camCurY; // 상하
     private float camCurX; // 좌우
     public float camSensitivity;
-    public float distance = 4f;
 
     private Vector2 curDelta;
 
@@ -32,6 +28,9 @@ public class Player : MonoBehaviour
     public float rayLength = 0.1f; // 레이 길이
     public float rayOffset = 0.2f; // 레이 간에 간격
 
+    [Header("Jump")]
+    private bool wasGround;
+    public float jumpPos; // 점프 높이
 
     [Header("Run")]
     public bool isRun = false;
@@ -43,10 +42,13 @@ public class Player : MonoBehaviour
 
     public ItemData itemData;
     public Action<ConsumType> addItem;
+    public Action<WeaponType> addWeapon;
+    public Animator animator;
 
     private void Awake()
     {
         rb = GetComponentInChildren<Rigidbody>();
+        animator = GetComponent<Animator>();
     }
 
     private void Start()
@@ -56,7 +58,12 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
-        IsGround();
+        bool isGround = IsGround();
+        if (isGround && !wasGround)
+        {
+            animator.SetBool("isJump", false);
+        }
+        wasGround = isGround;
     }
 
     private void FixedUpdate()
@@ -87,18 +94,21 @@ public class Player : MonoBehaviour
         if(context.phase == InputActionPhase.Performed)
         {
             moveVec = context.ReadValue<Vector2>();
+            animator.SetBool("isWalk", true);
+
         }
         else if(context.phase == InputActionPhase.Canceled)
         {
             moveVec = Vector2.zero;
+            animator.SetBool("isWalk", false);
         }
     }
 
     private void PlayerMove()
     {
-        // 카메라 기준 방향 구하기 (XZ 평면 기준)
-        Vector3 camForward = cameraRoot.forward;
-        Vector3 camRight = cameraRoot.right;
+        //카메라 기준 방향 구하기(XZ 평면 기준)
+        Vector3 camForward = cameraPos.forward;
+        Vector3 camRight = cameraPos.right;
 
         camForward.y = 0;
         camRight.y = 0;
@@ -113,12 +123,18 @@ public class Player : MonoBehaviour
 
         rb.velocity = moveDir;
 
-        //// 이동할 때 플레이어가 보는 방향도 같이 회전시키고 싶다면 이 코드 추가
-        //if (moveVec != Vector2.zero)
-        //{
-        //    Quaternion targetRot = Quaternion.LookRotation(moveDir);
-        //    transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 10f);
-        //}
+        // 이동할 때 플레이어가 보는 방향도 같이 회전시키고 싶다면 이 코드 추가
+        if (moveVec != Vector2.zero)
+        {
+            Vector3 lookDir = moveDir;
+            lookDir.y = 0f; // 상하 방향 제거 (Y축 회전만 반영되도록)
+
+            if (lookDir != Vector3.zero)
+            {
+                Quaternion targetRot = Quaternion.LookRotation(lookDir);
+                transform.rotation = Quaternion.Slerp(transform.rotation, targetRot, Time.deltaTime * 10f);
+            }
+        }
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -126,6 +142,7 @@ public class Player : MonoBehaviour
         if(context.phase == InputActionPhase.Started && IsGround())
         {
             rb.AddForce(Vector2.up * jumpPos, ForceMode.Impulse);
+            animator.SetBool("isJump", true);
         }
     }
 
@@ -140,11 +157,7 @@ public class Player : MonoBehaviour
         camCurY -= curDelta.y * camSensitivity;
         camCurY = Mathf.Clamp(camCurY, minCur, maxCur);
 
-        transform.rotation = Quaternion.Euler(0, camCurX, 0); // 플레이어 주변 회전
-        cameraVertical.localRotation = Quaternion.Euler(camCurY, 0, 0);
-
-        cameraTransform.localPosition = new Vector3(0, 0, -distance);
-        cameraTransform.LookAt(cameraRoot);
+        cameraPos.localRotation = Quaternion.Euler(camCurY, camCurX,0f);
     }
 
     public void OnRun(InputAction.CallbackContext context)
@@ -152,10 +165,12 @@ public class Player : MonoBehaviour
         if (context.phase == InputActionPhase.Started)
         {
             isRun = true;
+            animator.SetBool("isRun", true);
         }
         else if (context.phase == InputActionPhase.Canceled)
         {
             isRun = false;
+            animator.SetBool("isRun", false);
         }
     }
 

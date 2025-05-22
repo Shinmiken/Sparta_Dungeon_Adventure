@@ -7,11 +7,20 @@ public enum ItemType
     CanWear
 }
 
+public enum WeaponType
+{
+    Sword = 0,
+    Ax = 1,
+    Hat = 2,
+    not
+}
+
 public enum ConsumType
 {
     Jump = 0,
     Speed = 1,
-    health = 2
+    health = 2,
+    not
 }
 
 [System.Serializable]
@@ -27,5 +36,6 @@ public class ItemData : ScriptableObject
     [Header("Info")]
     public string ItemName;
     public ItemType type;
+    public WeaponType weaponType;
     public ConsumType consumType;
 }

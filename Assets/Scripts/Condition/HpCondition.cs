@@ -1,12 +1,10 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class HpCondition : MonoBehaviour
 {
     public float curHp;
-    public float maxHp;
+    public float maxHp = 5;
     public float startHp;
 
     public Image HpBar;
