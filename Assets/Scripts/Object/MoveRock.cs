@@ -8,6 +8,9 @@ public class MoveRock : MonoBehaviour
     float num = 0;
     float number = 1;
     Vector3 pos;
+
+    private Transform original;
+
     private void Start()
     {
         pos = transform.position;
@@ -36,6 +39,7 @@ public class MoveRock : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
+            original = collision.transform.parent;
             collision.transform.SetParent(transform); // 플레이어를 자식으로
         }
     }
@@ -44,7 +48,7 @@ public class MoveRock : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Player"))
         {
-            collision.transform.SetParent(null); // 부모에서 분리
+            collision.transform.SetParent(original); // 부모에서 분리
         }
     }
 }
