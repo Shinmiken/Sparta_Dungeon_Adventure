@@ -22,7 +22,7 @@ public class Interaction : MonoBehaviour
         CheckLadder();
     }
 
-    public bool CheckLadder()
+    public bool CheckLadder() // 사다리 확인용 레이
     {
         Vector3 downRay = transform.position;
         downRay.y += 0.1f;
@@ -40,10 +40,10 @@ public class Interaction : MonoBehaviour
     void CheckInfo()
     {
         Ray ray = Camera.main.ViewportPointToRay(new Vector3(0.5f, 0.5f, 0));
-        Debug.DrawRay(ray.origin, ray.direction * maxCheck, Color.red);
+        //Debug.DrawRay(ray.origin, ray.direction * maxCheck, Color.red);
         RaycastHit hit;
 
-        if (Physics.Raycast(ray, out hit, maxCheck, layerMask))
+        if (Physics.Raycast(ray, out hit, maxCheck, layerMask)) // 레이 쏘기
         {
             if (hit.collider.gameObject != curInteractGameObject)
             {
@@ -60,13 +60,13 @@ public class Interaction : MonoBehaviour
         }
     }
 
-    private void SetPromptText()
+    private void SetPromptText() // 장착 표시
     {
         promptText.gameObject.SetActive(true);
         promptText.text = discripsion;
     }
 
-    public void OnInteractInput(InputAction.CallbackContext context)
+    public void OnInteractInput(InputAction.CallbackContext context) // 아이템 획득 단축키 실행
     {
         if (context.phase == InputActionPhase.Started && curInteractable != null)
         {

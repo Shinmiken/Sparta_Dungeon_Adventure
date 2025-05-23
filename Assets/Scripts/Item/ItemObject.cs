@@ -15,11 +15,11 @@ public class ItemObject : MonoBehaviour, IInteractable
         PlayerManager.Instance.Player.itemData = data;
         if(data.type == ItemType.CanWear)
         {
-            PlayerManager.Instance.Player.addWeapon?.Invoke(data.weaponType);
+            PlayerManager.Instance.Player.addWeapon?.Invoke(data.weaponType); // 장비 작창 이벤트
         }
         else if (data.type == ItemType.CanConsum)
         {
-            PlayerManager.Instance.Player.addItem?.Invoke(data.consumType);
+            PlayerManager.Instance.Player.addItem?.Invoke(data.consumType); // 아이템 증가 이벤트
         }
         Destroy(gameObject);
     }

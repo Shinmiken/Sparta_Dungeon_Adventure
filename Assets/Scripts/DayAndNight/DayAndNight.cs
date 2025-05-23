@@ -12,28 +12,26 @@ public class DayAndNight : MonoBehaviour
 
     private void Update()
     {
-        if(player.position.y > 300)
+        if(player.position.y > 300) // 플레이어 위치에 따른 skybox material변경
         {
             if (RenderSettings.skybox == Night) return;
-            Debug.Log("dd");
             SetNight();
         }
         else if(player.position.y < 300)
         {
             if (RenderSettings.skybox == Day) return;
-            Debug.Log("ddd");
             SetDay();
         }
     }
 
-    public void SetNight()
+    public void SetNight() // 밤
     {
         RenderSettings.skybox = Night;
         Light.intensity = 0.1f;
         RenderSettings.ambientLight = Color.black;
     }
 
-    public void SetDay()
+    public void SetDay() // 낮
     {
         RenderSettings.skybox = Day;
         Light.intensity = 1f;

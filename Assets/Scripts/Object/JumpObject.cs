@@ -7,7 +7,7 @@ public class JumpObject : MonoBehaviour
     [SerializeField] private int jumpPower = 3;
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
+        if (collision.gameObject.CompareTag("Player")) // 점프 효과
         {
             PlayerManager.Instance.Player.Rb.AddForce(Vector3.up * (PlayerManager.Instance.Player.jumpPos * jumpPower), ForceMode.Impulse);
         }

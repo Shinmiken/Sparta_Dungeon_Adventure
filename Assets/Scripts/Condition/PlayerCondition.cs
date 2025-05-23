@@ -9,7 +9,7 @@ public class PlayerCondition : MonoBehaviour
 
     private void Update()
     {
-        if (PlayerManager.Instance.Player.isRun && !PlayerManager.Instance.Player.isSuper)
+        if (PlayerManager.Instance.Player.isRun && !PlayerManager.Instance.Player.isSuper) // 플레이어가 달리면 스테미나 감소
         {
             if (stemina.curHp <= 0)
             {

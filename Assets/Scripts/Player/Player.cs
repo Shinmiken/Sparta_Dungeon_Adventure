@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (isClimb && PlayerManager.Instance.Interaction.CheckLadder())
+        if (isClimb && PlayerManager.Instance.Interaction.CheckLadder()) // 사다리 체크
         {
             rb.velocity = Vector2.up * climbSpeed;
         }
@@ -123,7 +123,7 @@ public class Player : MonoBehaviour
 
         rb.velocity = moveDir;
 
-        // 이동할 때 플레이어가 보는 방향도 같이 회전시키고 싶다면 이 코드 추가
+        // 이동할 때 플레이어가 보는 방향도 같이 회전
         if (moveVec != Vector2.zero)
         {
             Vector3 lookDir = moveDir;

@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class NewJumpObject : MonoBehaviour
 {
-    public Transform target;
+    public Transform target; // 도착할 위치
     public GameObject charactor;
-    private Transform originalParent;
+    private Transform originalParent; // 다시 부모 오브젝트로 옮기기 위한 변수
     public float speed = 20f;
     bool isRide;
 
